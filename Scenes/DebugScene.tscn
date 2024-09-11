@@ -1,0 +1,64 @@
+[gd_scene load_steps=8 format=3 uid="uid://dd3hvogxluk1l"]
+
+[ext_resource type="Shader" path="res://Shaders/grid_shader.gdshader" id="1_l202q"]
+[ext_resource type="PackedScene" uid="uid://bl7dvlt4p8b72" path="res://Scenes/Prefabs/Player/Player.tscn" id="2_gbstt"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_op4fj"]
+sky_top_color = Color(0.241496, 0.420337, 0.829949, 1)
+sky_horizon_color = Color(0.473644, 0.653757, 0.940013, 1)
+ground_bottom_color = Color(0.158284, 0.173063, 0.586351, 1)
+ground_horizon_color = Color(0.337138, 0.48226, 0.923039, 1)
+
+[sub_resource type="Sky" id="Sky_kr8vy"]
+sky_material = SubResource("ProceduralSkyMaterial_op4fj")
+
+[sub_resource type="Environment" id="Environment_fuk8q"]
+background_mode = 2
+sky = SubResource("Sky_kr8vy")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rxyyq"]
+render_priority = 0
+shader = ExtResource("1_l202q")
+shader_parameter/subdivisions = 50.0
+shader_parameter/grid_width = 0.02
+shader_parameter/background_color = Color(0.2, 0.2, 0.2, 1)
+shader_parameter/background_color_two = Color(0.1, 0.1, 0.1, 1)
+shader_parameter/grid_color = Color(0.5, 0.5, 0.5, 1)
+shader_parameter/dashed_scale_x = 0.02
+shader_parameter/dashed_scale_y = 0.02
+shader_parameter/dashed_count_x = 1.0
+shader_parameter/dashed_count_y = 1.0
+shader_parameter/point_width = 0.021
+shader_parameter/point_color = Color(0, 0, 0, 1)
+shader_parameter/point_scale_x = 0.05
+shader_parameter/point_scale_y = 0.05
+shader_parameter/inside_width = 0.01
+shader_parameter/inside_subdivisions = 6.0
+shader_parameter/inside_color = Color(0.4, 0.4, 0.4, 1)
+shader_parameter/in_dashed_scale_x = 0.3
+shader_parameter/in_dashed_scale_y = 0.3
+shader_parameter/in_dashed_count_x = 6.0
+shader_parameter/in_dashed_count_y = 6.0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_u2tnb"]
+material = SubResource("ShaderMaterial_rxyyq")
+size = Vector2(50, 50)
+subdivide_width = 1
+subdivide_depth = 1
+
+[node name="DebugScene" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_fuk8q")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Floor" type="CSGMesh3D" parent="."]
+use_collision = true
+mesh = SubResource("PlaneMesh_u2tnb")
+
+[node name="Player" parent="." instance=ExtResource("2_gbstt")]

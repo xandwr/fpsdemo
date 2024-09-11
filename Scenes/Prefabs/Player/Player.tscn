@@ -1,0 +1,41 @@
+[gd_scene load_steps=7 format=3 uid="uid://bl7dvlt4p8b72"]
+
+[ext_resource type="Script" path="res://Scenes/Prefabs/Player/player.gd" id="1_jg77y"]
+[ext_resource type="Script" path="res://Scenes/Prefabs/Player/PlayerMovement.gd" id="2_g65nf"]
+[ext_resource type="Script" path="res://Scenes/Prefabs/Player/PlayerCamera.gd" id="3_bjfl6"]
+[ext_resource type="Script" path="res://Scenes/Prefabs/Player/PlayerManager.gd" id="4_dsrfn"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ugsh4"]
+radius = 0.35
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_o1twu"]
+radius = 0.35
+
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("movement_component", "camera_component")]
+process_mode = 3
+script = ExtResource("1_jg77y")
+movement_component = NodePath("PlayerMovement")
+camera_component = NodePath("PlayerCamera")
+
+[node name="Collider" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_ugsh4")
+
+[node name="Mesh" type="MeshInstance3D" parent="Collider"]
+mesh = SubResource("CapsuleMesh_o1twu")
+skeleton = NodePath("../..")
+
+[node name="Head" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Head"]
+current = true
+
+[node name="PlayerMovement" type="Node" parent="."]
+script = ExtResource("2_g65nf")
+
+[node name="PlayerCamera" type="Node" parent="."]
+script = ExtResource("3_bjfl6")
+
+[node name="PlayerManager" type="Node" parent="."]
+script = ExtResource("4_dsrfn")
