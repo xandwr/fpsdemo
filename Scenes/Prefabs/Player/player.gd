@@ -7,11 +7,18 @@ extends CharacterBody3D
 @onready var head = $Head
 @onready var camera = $Head/Camera3D
 
+var desired_fov: float
+
 
 func _ready() -> void:
 	movement_component.init(self)
 	camera_component.init(self)
 	player_manager.init(self)
+	desired_fov = camera_component.regular_fov
+
+
+func _process(delta: float) -> void:
+	camera.fov = lerp(camera.fov, desired_fov, 0.05)
 
 
 func _physics_process(delta: float) -> void:
