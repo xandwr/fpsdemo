@@ -17,7 +17,7 @@ func _ready() -> void:
 	desired_fov = camera_component.regular_fov
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	camera.fov = lerp(camera.fov, desired_fov, 0.05)
 
 
