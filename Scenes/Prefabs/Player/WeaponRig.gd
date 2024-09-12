@@ -6,6 +6,7 @@ extends Node3D
 @onready var player_movement: PlayerMovement = $"../../../PlayerMovement"
 @onready var player_camera: PlayerCamera = $"../../../PlayerCamera"
 @onready var camera: Camera3D = $".."
+@onready var player: CharacterBody3D = $"../../.."
 
 var current_weapon: Weapon = null
 var default_weapon_position: Vector3
@@ -29,7 +30,7 @@ func _process(delta: float) -> void:
 		ammo_label.text = "%s/%s" % [current_weapon.ammo_count, current_weapon.max_ammo]
 	
 	cam_tilt(player_movement.input_direction.x, delta)
-	weapon_tilt(player_movement.input_direction.x, player_movement.input_direction.y, delta)
+	weapon_tilt(player_movement.input_direction.x, player_movement.input_direction.y, player.velocity, delta)
 	weapon_sway(delta)
 
 
@@ -49,9 +50,9 @@ func cam_tilt(input_x, delta):
 		camera.rotation.z = lerp(camera.rotation.z, -input_x * player_camera.camera_tilt, 10.0 * delta)
 
 
-func weapon_tilt(input_x, input_y, delta):
-	rotation.z = lerp(rotation.z, -input_x * current_weapon.weapon_rotation_amount, 10.0 * delta)
-	rotation.x = lerp(rotation.x, -input_y * current_weapon.weapon_rotation_amount, 10.0 * delta)
+func weapon_tilt(input_x, input_y, player_velocity, delta):
+	rotation.z = lerp(rotation.z, input_x * current_weapon.weapon_rotation_amount, 10.0 * delta)
+	rotation.x = clamp(lerp(rotation.x, (-input_y - player_velocity.y) * current_weapon.weapon_rotation_amount, 10.0 * delta), -0.1, 0.1)
 
 
 func weapon_sway(delta):
