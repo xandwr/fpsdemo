@@ -1,6 +1,7 @@
 class_name PlayerMovement extends Node
 
-@export var speed: float = 4.0
+@export var walk_speed: float = 4.0
+@export var sprint_speed: float = 6.5
 @export var acceleration: float = 8.0
 @export var deceleration: float = 10.0
 @export var jump_force: float = 4.5
@@ -29,8 +30,8 @@ func process_movement(delta: float) -> void:
 		var target_direction = (player.head.transform.basis * Vector3(input_direction.x, 0, input_direction.y)).normalized()
 		
 		if input_direction != Vector2.ZERO:
-			move_velocity.x = lerp(move_velocity.x, target_direction.x * speed, acceleration * delta)
-			move_velocity.z = lerp(move_velocity.z, target_direction.z * speed, acceleration * delta)
+			move_velocity.x = lerp(move_velocity.x, target_direction.x * (sprint_speed if Input.is_action_pressed("Sprint") else walk_speed), acceleration * delta)
+			move_velocity.z = lerp(move_velocity.z, target_direction.z * (sprint_speed if Input.is_action_pressed("Sprint") else walk_speed), acceleration * delta)
 		else:
 			move_velocity.x = lerp(move_velocity.x, 0.0, deceleration * delta)
 			move_velocity.z = lerp(move_velocity.z, 0.0, deceleration * delta)

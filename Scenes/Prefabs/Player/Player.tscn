@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bl7dvlt4p8b72"]
+[gd_scene load_steps=11 format=3 uid="uid://bl7dvlt4p8b72"]
 
 [ext_resource type="Script" path="res://Scenes/Prefabs/Player/player.gd" id="1_jg77y"]
 [ext_resource type="Script" path="res://Scenes/Prefabs/Player/PlayerMovement.gd" id="2_g65nf"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://Scenes/Prefabs/Player/PlayerManager.gd" id="4_dsrfn"]
 [ext_resource type="Script" path="res://Scenes/Prefabs/Player/PauseMenu.gd" id="5_t6whn"]
 [ext_resource type="Script" path="res://Scenes/Prefabs/Player/DebugMenu.gd" id="6_gi3sw"]
+[ext_resource type="Script" path="res://Scenes/Prefabs/Player/Crosshair.gd" id="7_jr4tg"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ugsh4"]
 radius = 0.35
@@ -106,6 +107,7 @@ text = "Quit
 "
 
 [node name="DebugMenu" type="Control" parent="."]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -160,6 +162,28 @@ text = "Player Velocity:"
 [node name="LookDirLabel" type="Label" parent="DebugMenu/MarginContainer/MarginContainer/VBoxContainer/VBoxContainer"]
 layout_mode = 2
 text = "Look Direction: "
+
+[node name="Crosshair" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("7_jr4tg")
+
+[node name="Label" type="Label" parent="Crosshair"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 24
+text = "+"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="pressed" from="PauseMenu/MarginContainer/VBoxContainer/ButtonContainer/ResumeButton" to="PauseMenu" method="_on_resume_button_pressed"]
 [connection signal="pressed" from="PauseMenu/MarginContainer/VBoxContainer/ButtonContainer/QuitButton" to="PauseMenu" method="_on_quit_button_pressed"]
