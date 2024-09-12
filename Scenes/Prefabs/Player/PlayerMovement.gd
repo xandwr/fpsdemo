@@ -8,8 +8,10 @@ class_name PlayerMovement extends Node
 var player: CharacterBody3D
 var move_velocity: Vector3 = Vector3.ZERO
 
+
 func init(player_ref: CharacterBody3D):
 	player = player_ref
+
 
 func process_movement(delta: float) -> void:
 	if not player.is_on_floor():

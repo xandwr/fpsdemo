@@ -5,8 +5,10 @@ class_name PlayerCamera extends Node
 
 var player: CharacterBody3D
 
+
 func init(player_ref: CharacterBody3D):
 	player = player_ref
+
 
 func process_look(event: InputEvent) -> void:
 	if not get_tree().paused:
