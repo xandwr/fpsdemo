@@ -10,10 +10,12 @@ class_name Gun extends Weapon
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var particle_emitter: GPUParticles3D = $MuzzleFlash/GPUParticles3D
 @onready var muzzle_flash_light: OmniLight3D = $MuzzleFlash/OmniLight3D
+@onready var camera: Camera3D = $"../.."
 
 var can_reload: bool = false
 var is_reloading: bool = false  # Track if reload is happening
 var is_firing: bool = false  # New variable to track if firing animation is in progress
+var gun_ray_length: float = 1000.0
 
 
 func _ready() -> void:
@@ -39,6 +41,21 @@ func fire():
 			# Play particle emitter and enable muzzle flash light
 			particle_emitter.emitting = true
 			muzzle_flash_light.visible = true
+			
+			# Cast raycast
+			var screen_center = get_viewport().get_camera_3d().get_window().size / 2
+			var from = camera.project_ray_origin(screen_center)
+			var direction = camera.project_ray_origin(screen_center)
+			var to = from + direction * gun_ray_length
+			var space_state = get_world_3d().direct_space_state
+			var params = PhysicsRayQueryParameters3D.new()
+			params.from = from
+			params.to = to
+			var result = space_state.intersect_ray(params)
+			
+			if result.size() > 0:
+				var hit_position = result.position
+				print("Hit at: ", hit_position)
 			
 			# Play fire animation
 			if not animation_player.is_playing() or animation_player.current_animation != "shoot":

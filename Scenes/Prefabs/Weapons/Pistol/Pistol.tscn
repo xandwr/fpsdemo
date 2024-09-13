@@ -112,8 +112,8 @@ max_ammo = 15
 shoot_sound = ExtResource("2_6xw7b")
 reload_sound = ExtResource("3_m18ao")
 weapon_name = &"Pistol"
-weapon_sway_amount = 0.001
-weapon_rotation_amount = 0.02
+weapon_sway_amount = 0.003
+weapon_rotation_amount = 0.05
 weapon_rotation = Vector3(0, 90, 0)
 
 [node name="Root Scene" parent="." instance=ExtResource("1_ailem")]
@@ -130,10 +130,12 @@ libraries = {
 
 [node name="ShootAudioPlayer" type="AudioStreamPlayer3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.357688, 0.136751, 0)
+volume_db = -12.0
 max_polyphony = 8
 
 [node name="ReloadAudioPlayer" type="AudioStreamPlayer3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.357688, 0.136751, 0)
+volume_db = -12.0
 max_polyphony = 8
 
 [node name="MuzzleFlash" type="Node3D" parent="."]
